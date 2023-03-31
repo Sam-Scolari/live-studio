@@ -1,10 +1,37 @@
-import { JSXElement, onMount } from "solid-js";
+import { JSXElement, createSignal, onMount } from "solid-js";
 import useMedia from "./hooks/useMedia";
 import Sources from "./components/windows/Sources";
 import AudioMixer from "./components/windows/AudioMixer";
 import Activity from "./components/windows/Activity";
 import Chat from "./components/windows/Chat";
 import Scenes from "./components/windows/Scenes";
+import { Scene, Source } from "./types";
+
+const [scenes, setScenes] = createSignal<Scene[]>([
+  {
+    id: "scene-1",
+    label: "Main",
+    sources: [
+      { id: "desktop", label: "Desktop", type: "screen" },
+      { id: "microphone", label: "Microphone", type: "microphone" },
+      { id: "camera", label: "Camera", type: "camera" },
+    ],
+  },
+  { id: "scene-2", label: "Secondary", sources: [] },
+  { id: "scene-3", label: "Scene 3", sources: [] },
+]);
+const [selectedScene, setSelectedScene] = createSignal(0);
+
+const [selectedSource, setSelectedSource] = createSignal(0);
+
+export {
+  scenes,
+  setScenes,
+  selectedScene,
+  setSelectedScene,
+  selectedSource,
+  setSelectedSource,
+};
 
 export default function App() {
   return (
@@ -36,20 +63,8 @@ export default function App() {
           <Chat />
         </div>
         <div class="flex h-full max-h-[50%] gap-2">
-          <Scenes
-            scenes={[
-              { id: "scene-1", label: "Main", sources: [] },
-              { id: "scene-2", label: "Secondary", sources: [] },
-              { id: "scene-3", label: "Scene 3", sources: [] },
-            ]}
-          />
-          <Sources
-            sources={[
-              { id: "desktop", label: "Desktop", type: "screen" },
-              { id: "microphone", label: "Microphone", type: "microphone" },
-              { id: "camera", label: "Camera", type: "camera" },
-            ]}
-          />
+          <Scenes />
+          <Sources />
           <AudioMixer />
         </div>
       </div>

@@ -1,20 +1,41 @@
 import { For, Match, Switch, createSignal } from "solid-js";
 import { Source } from "../../types";
 import Section from "../Section";
+import {
+  setSelectedSource,
+  selectedSource,
+  scenes,
+  selectedScene,
+} from "../../App";
 
-export default function Sources(props: { sources: Source[] }) {
-  const [selectedSource, setSelectedSource] = createSignal(0);
-
+export default function Sources() {
   return (
     <Section name="Sources">
       <div class="w-full flex gap-2">
+        <div
+          // onClick={() => {
+          //   setScenes([
+          //     ...scenes(),
+          //     {
+          //       id: `Scene ${scenes().length + 1}`,
+          //       label: `Scene ${scenes().length + 1}`,
+          //       sources: [],
+          //       duration: 300,
+          //     },
+          //   ]);
+          // }}
+          class="bg-darkblue text-lightgrey cursor-pointer select-none flex items-center gap-2 text-sm font-medium px-2 py-1 rounded-md"
+        >
+          New
+          <img onClick={() => {}} src="/icons/add.svg" class="cursor-pointer" />
+        </div>
         <div class="bg-grey text-lightgrey flex items-center gap-2 text-sm font-medium px-2 py-1 rounded-md">
           Filter
           <img src="/icons/filter.svg" />
         </div>
       </div>
       <ul class="h-full flex flex-col gap-2 text-lightgrey text-sm">
-        <For each={props.sources}>
+        <For each={scenes()[selectedScene()].sources}>
           {(source, index) => (
             <li
               onClick={() => setSelectedSource(index())}
